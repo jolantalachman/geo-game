@@ -18,6 +18,9 @@ jobs:
         with:
           submodules: true
 
+      - name: Change directory to geo-game-ui
+        run: cd geo-game-ui
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
