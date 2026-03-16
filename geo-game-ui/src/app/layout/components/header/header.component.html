@@ -1,30 +1,34 @@
 <div class="navbar">
-    <div class="navbar-brand" (click)="goTo('')">
-      <h1>Geo game</h1>
-    </div>
-    <nav class="navbar-links">
-        @if(role$ | async; as role) {
-            <div *ngIf="role === UserRoleEnum.ADMIN">
-                <a class="account" (click)="goTo('/account')">My account</a>
-                <a class="account" (click)="goTo('/admin')">Admin panel</a> 
-                <a class="logout" (click)="logout()">Log out</a> 
-            </div>
-        
-            <div *ngIf="role === UserRoleEnum.USER">
-                <span class="account" (click)="goTo('/account')">My account</span>
-                <span class="logout" (click)="logout()">Log out</span> 
-            </div>
-        
-        }
-        @else {
-            <asl-google-signin-button
-                text="continue_with"
-                shape="pill" type='standard'
-                size='medium'
-                locale="en"
-                client-id="655355497929-rq6mmj5aqnulgni11ua5ng94j53lj0m0.apps.googleusercontent.com"
-            >
-            </asl-google-signin-button>
-        }
-    </nav>
+  <div class="navbar-brand" (click)="goTo('')">
+    <h1>Geo game</h1>
+  </div>
+  <nav class="navbar-links">
+    @if(role$ | async; as role) {
+      @if (role === UserRoleEnum.ADMIN) {
+        <div>
+          <a class="account" (click)="goTo('/account')">My account</a>
+          <a class="account" (click)="goTo('/admin')">Admin panel</a>
+          <a class="logout" (click)="logout()">Log out</a>
+        </div>
+      }
+
+      @if (role === UserRoleEnum.USER) {
+        <div>
+          <span class="account" (click)="goTo('/account')">My account</span>
+          <span class="logout" (click)="logout()">Log out</span>
+        </div>
+      }
+
+    }
+    @else {
+    <asl-google-signin-button
+      text="continue_with"
+      shape="pill" type='standard'
+      size='medium'
+      locale="en"
+      client-id="655355497929-rq6mmj5aqnulgni11ua5ng94j53lj0m0.apps.googleusercontent.com"
+      >
+    </asl-google-signin-button>
+  }
+</nav>
 </div>
