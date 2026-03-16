@@ -95,7 +95,7 @@
                 </div>
                 <div class="info">
                     <h4>Average score:</h4>
-                    <p>{{user.averageScore}} in {{user.averageTime | timeFormat }} minutes</p>
+                    <p>{{user.averageScore}} in {{ (user.averageTime ?? 0) | timeFormat }} minutes</p>
                 </div>
                 <div class="info">
                     <h4>Your progress chart:</h4>

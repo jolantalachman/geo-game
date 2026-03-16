@@ -1,15 +1,15 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Sort } from "@angular/material/sort";
+import { environment } from "@environments/environment";
 import { GameStatsModel, LoginResponseModel, ScoreApiModel, ScoreChartModel, ScoreTableData, UserModel } from "@shared/models";
-import { Observable, tap } from "rxjs";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService {
-    // private apiUrl = 'https://localhost:7296';
-    private apiUrl = 'https://geo-game-be-acgbgyg5ewgdcmcz.polandcentral-01.azurewebsites.net';
+    private apiUrl = environment.apiUrl;
 
     constructor(private http: HttpClient) {}
 

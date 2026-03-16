@@ -35,8 +35,9 @@ export class MapFacade {
     this.store.select(MapSelectors.selectMapData),
     this.store.select(MapSelectors.coloredCountries)
   ]).pipe(
-    map(([mapData, coloredCountries]: [CountriesData, FeatureData[]]) => {
-      return `${coloredCountries.length}/${mapData?.features.length}`
+    map(([mapData, coloredCountries]: [CountriesData | null, FeatureData[]]) => {
+      const total = mapData?.features?.length ?? 0;
+      return `${coloredCountries.length}/${total}`;
     })
   );
 

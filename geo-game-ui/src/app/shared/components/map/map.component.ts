@@ -1,8 +1,19 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChanges, inject } from '@angular/core';
-import { FeatureData } from '@shared/models';
+import { CountriesData, FeatureData } from '@shared/models';
 import { MapFacade } from '@shared/store/map';
 import * as L from 'leaflet';
-import { Subject, takeUntil, tap } from 'rxjs';
+import { Subject, takeUntil, tap, filter } from 'rxjs';
+
+type GeoJsonLayer = L.Layer & {
+  feature?: {
+    id?: string;
+    properties?: {
+      center?: [number, number];
+    };
+  };
+  setStyle?: (style: any) => void;
+  options?: any;
+};
 
 @Component({
   selector: 'app-map',
@@ -64,6 +75,7 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
     this.facade.mapData$
       .pipe(
         takeUntil(this.destroy$),
+        filter((data): data is CountriesData => !!data),
         tap((x) => {
           L.geoJSON(x, {
             style: this.defaultStyle,
@@ -75,18 +87,20 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
   private updateColoredCountries(countries: FeatureData[]) {
     if (this.map) {
-      this.map.eachLayer((layer) => {
-        const geoLayer = layer as any;
+      this.map.eachLayer((layer: L.Layer) => {
+        const geoLayer = layer as GeoJsonLayer;
         const country = countries.find(c => c.id === geoLayer?.feature?.id);
-        if(country) {
+        if (country) {
           const removedMarker = this.markers.find(x => {
-            const {lat, lng} = x.getLatLng();
+            const { lat, lng } = x.getLatLng();
             return lat === country.properties.center[0] && lng === country.properties.center[1];
           });
           if (removedMarker) {
             removedMarker.remove();
           }
-          layer.setStyle({...layer.options, fillColor: '#e64220' });
+          if (geoLayer.setStyle) {
+            geoLayer.setStyle({ ...(geoLayer.options ?? {}), fillColor: '#e64220' });
+          }
         }
       });
     }
@@ -104,10 +118,10 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
   showMissingCountries() {
     if (this.map) {
-      this.map.eachLayer((layer) => {
-        const geoLayer = layer as any;
+      this.map.eachLayer((layer: L.Layer) => {
+        const geoLayer = layer as GeoJsonLayer;
         const country = this.coloredCountries.find(c => c.id === geoLayer?.feature?.id);
-        if(!country && geoLayer?.feature?.properties?.center) {    
+        if (!country && geoLayer?.feature?.properties?.center) {
           const marker = L.marker(geoLayer.feature.properties.center, {
             icon: L.divIcon({
               className: 'black-point',

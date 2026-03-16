@@ -10,7 +10,7 @@ export class EndDialogComponent {
   @Input() gameStats: GameStatsModel = {
     guessedCountries: '',
     time: 0,
-    gameDate: null as any,
+    gameDate: null,
   }
 
   @Output() gameEnded: EventEmitter<boolean> = new EventEmitter<boolean>();

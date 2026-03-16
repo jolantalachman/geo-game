@@ -1,29 +1,30 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { faCheck, faPen, faPlus, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { UserRoleEnum } from '@shared/enum';
-import { ScoreApiModel } from '@shared/models';
+import { ScoreApiModel, ScoreChartModel } from '@shared/models';
 import { UserFacade } from '@shared/store/user';
-import { BehaviorSubject, combineLatest, map, of, switchMap, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, Observable, of, Subject, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
   styleUrl: './my-account.component.scss'
 })
-export class MyAccountComponent implements AfterViewInit {
+export class MyAccountComponent implements AfterViewInit, OnDestroy {
   private facade = inject(UserFacade);
+  private readonly destroy$ = new Subject<void>();
   refresh = new BehaviorSubject<boolean>(false);
   refresh$ = this.refresh.asObservable();
   user$ = this.refresh$.pipe(
     switchMap(() => this.facade.getUserInfo()),
     tap((user) => {
-      this.nickInput = user.nick;
+      this.nickInput = user.nick ?? '';
     })
   );
-  scoreChart$ = this.facade.scoreChart$;
+  scoreChart$: Observable<ScoreChartModel | null> = this.facade.scoreChart$;
   displayedColumns: string[] = ['gameDate', 'gameTime', 'guessedCountries'];
   dataSource = new MatTableDataSource<ScoreApiModel>([]);
   public UserRoleEnum = UserRoleEnum;
@@ -42,7 +43,7 @@ export class MyAccountComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.loadPageData().subscribe();
+    this.loadPageData().pipe(takeUntil(this.destroy$)).subscribe();
   }
 
   loadPageData() {
@@ -61,12 +62,12 @@ export class MyAccountComponent implements AfterViewInit {
   handlePageEvent(e: PageEvent) {
     this.pageSize = e.pageSize;
     this.pageIndex = e.pageIndex;
-    this.loadPageData().subscribe();
+    this.loadPageData().pipe(take(1)).subscribe();
   }
 
   handleSort(event: Sort) {
     this.sortOptions = event;
-    this.loadPageData().subscribe();
+    this.loadPageData().pipe(take(1)).subscribe();
   }
 
   onCancelDeleteUserDialog() {
@@ -74,7 +75,7 @@ export class MyAccountComponent implements AfterViewInit {
   }
 
   onContinueDeleteUserDialog() {
-    this.facade.deleteUserAccount().subscribe(() => {
+    this.facade.deleteUserAccount().pipe(take(1)).subscribe(() => {
       this.showConfirmationDeleteUserDialog = false;
       this.facade.logout();
     });
@@ -86,14 +87,15 @@ export class MyAccountComponent implements AfterViewInit {
 
   onContinueDeleteScoresDialog() {
     this.facade.deleteUserScores().pipe(
-      switchMap(() => 
+      take(1),
+      switchMap(() =>
         this.loadPageData()
       ),
       tap(() => {
         this.scoreChart$ = of(null);
         this.scoreChart$ = this.facade.getUserScoreChart();
       })
-    ).subscribe(() => 
+    ).subscribe(() =>
       this.showConfirmationDeleteScoresDialog = false
     );
   }
@@ -111,9 +113,17 @@ export class MyAccountComponent implements AfterViewInit {
   }
 
   saveNick() {
-    this.facade.saveNick(this.nickInput).pipe(tap(x => {
-      this.changeNickState(false);
-      this.refresh.next(x);
-    })).subscribe();
+    this.facade.saveNick(this.nickInput).pipe(
+      take(1),
+      tap((x) => {
+        this.changeNickState(false);
+        this.refresh.next(x);
+      })
+    ).subscribe();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

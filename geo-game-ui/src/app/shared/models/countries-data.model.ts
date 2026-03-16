@@ -1,4 +1,4 @@
-import type { GeoJsonObject, GeoJsonGeometry } from 'geojson';
+import type { GeoJsonObject, Geometry } from 'geojson';
 
 export interface CountriesData extends GeoJsonObject {
   type: 'FeatureCollection';
@@ -18,8 +18,4 @@ export interface PropertiesData {
   center: [number, number];
 }
 
-export interface GeometryData {
-  type: string;
-  // Using GeoJSON geometry typing for coordinates
-  coordinates: GeoJsonGeometry['coordinates'];
-}
+export type GeometryData = Geometry;

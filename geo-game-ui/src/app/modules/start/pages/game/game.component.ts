@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { CountriesData, FeatureData, GameStatsModel, ScoreApiModel } from '@shared/models';
 import { MapFacade } from '@shared/store/map';
-import { BehaviorSubject, tap } from 'rxjs';
+import { filter, take, tap } from 'rxjs';
 import { faCirclePause, faCirclePlay, faCircleQuestion, faCircleStop } from '@fortawesome/free-solid-svg-icons';
 import { TimerComponent } from '@shared/components/timer/timer.component';
 import { UserFacade } from '@shared/store/user';
@@ -25,7 +25,7 @@ export class GameComponent implements OnDestroy {
   gameStats: GameStatsModel = {
     guessedCountries: '',
     time: 0,
-    gameDate: null as any,
+    gameDate: null,
   };
   bestScore?: ScoreApiModel;
 
@@ -79,16 +79,21 @@ export class GameComponent implements OnDestroy {
   private checkCountry(countryName: string) {
     this.showError = false;
     this.loading = true;
-    this.facade.mapData$.pipe(tap((data: CountriesData) => {
-      this.loading = false;
-        const foundCountry = data.features.find(x => x.properties.name.toLowerCase() === countryName.toLowerCase())
-        if (foundCountry) {
-          this.facade.loadColoredCountry(foundCountry)
-        }
-        else {
-          this.showError = true;
-        }
-    })).subscribe();
+    this.facade.mapData$
+      .pipe(
+        take(1),
+        filter((data): data is CountriesData => !!data),
+        tap((data) => {
+          this.loading = false;
+          const foundCountry = data.features.find(x => x.properties.name.toLowerCase() === countryName.toLowerCase());
+          if (foundCountry) {
+            this.facade.loadColoredCountry(foundCountry);
+          } else {
+            this.showError = true;
+          }
+        })
+      )
+      .subscribe();
   }
 
   showMissingCountries() {
@@ -112,7 +117,7 @@ export class GameComponent implements OnDestroy {
     this.gameStats = {
       guessedCountries: '',
       time: 0,
-      gameDate: null as any,
+      gameDate: null,
     };
     this.bestScore = undefined;
   }

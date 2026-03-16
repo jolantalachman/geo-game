@@ -3,7 +3,7 @@ import { HttpRequest, HttpEvent, HttpInterceptorFn, HttpHandlerFn, HttpErrorResp
 import { catchError, Observable, throwError } from 'rxjs';
 import { UserFacade } from '@shared/store/user';
 
-export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
+export const jwtInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
   const userFacade = inject(UserFacade);
 
   const token = userFacade.token;
