@@ -104,10 +104,11 @@ export class MapComponent implements OnInit, OnChanges, OnDestroy {
 
   showMissingCountries() {
     if (this.map) {
-      this.map.eachLayer((layer: any) => {
-        const country = this.coloredCountries.find(c => c.id === layer?.feature?.id);
-        if(!country && layer?.feature?.properties?.center) {    
-          const marker = L.marker(layer?.feature?.properties?.center, {
+      this.map.eachLayer((layer) => {
+        const geoLayer = layer as any;
+        const country = this.coloredCountries.find(c => c.id === geoLayer?.feature?.id);
+        if(!country && geoLayer?.feature?.properties?.center) {    
+          const marker = L.marker(geoLayer.feature.properties.center, {
             icon: L.divIcon({
               className: 'black-point',
               iconSize: [10, 10],
