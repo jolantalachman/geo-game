@@ -1,0 +1,30 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 20px;
+
+    .title {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        fa-icon {
+            cursor: pointer;
+            position: relative;
+        }
+    }
+
+    .admin-container {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        padding-bottom: 22px;
+
+        &-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+    }
+}

@@ -1,0 +1,100 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    gap: 20px;
+
+    .title {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        fa-icon {
+            cursor: pointer;
+            position: relative;
+        }
+
+        .delete-user {
+            margin-left: auto;
+        }
+
+        .input-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            input {
+                height: 32px;
+            }
+        }
+
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background-color: #bcaeb2;
+            padding: 5px;
+            border-radius: 100%;
+        }
+    }
+
+    .info {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+
+    .scores-container {
+        display: flex;
+        gap: 32px;
+        padding-bottom: 22px;
+
+        &-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex:1;
+        }
+    }
+
+    .scores-stats {
+        flex: 0.75;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .table {
+        background-color: #bcaeb2;
+        border-radius: 25px;
+        flex: 1;
+        height: fit-content;
+    }
+
+    .delete-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: fit-content;
+        align-self: center;
+        background-color: #da8585;
+        color: 000000;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        &:hover {
+            background-color: indianred;
+        }
+    }
+
+    .delete-scores {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 16px;
+    }
+}
