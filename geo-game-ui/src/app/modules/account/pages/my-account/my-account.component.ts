@@ -9,9 +9,10 @@ import { UserFacade } from '@shared/store/user';
 import { BehaviorSubject, combineLatest, map, Observable, of, Subject, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs';
 
 @Component({
-  selector: 'app-my-account',
-  templateUrl: './my-account.component.html',
-  styleUrl: './my-account.component.scss'
+    selector: 'app-my-account',
+    templateUrl: './my-account.component.html',
+    styleUrl: './my-account.component.scss',
+    standalone: false
 })
 export class MyAccountComponent implements AfterViewInit, OnDestroy {
   private facade = inject(UserFacade);

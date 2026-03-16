@@ -10,9 +10,10 @@ import { LoggerService } from '@shared/services';
 import { catchError, of, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.scss'
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrl: './users.component.scss',
+    standalone: false
 })
 export class UsersComponent implements AfterViewInit, OnDestroy {
   private facade = inject(AdminFacade);

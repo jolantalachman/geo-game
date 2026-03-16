@@ -2,9 +2,10 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { ChartConfiguration } from 'chart.js';
 
 @Component({
-  selector: 'app-linear-chart',
-  templateUrl: './linear-chart.component.html',
-  styleUrl: './linear-chart.component.scss'
+    selector: 'app-linear-chart',
+    templateUrl: './linear-chart.component.html',
+    styleUrl: './linear-chart.component.scss',
+    standalone: false
 })
 export class LinearChartComponent implements OnInit, OnChanges {
   @Input() dates: string[] = [];

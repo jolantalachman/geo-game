@@ -2,9 +2,10 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { GameStatsModel, ScoreApiModel } from '@shared/models';
 
 @Component({
-  selector: 'app-end-dialog',
-  templateUrl: './end-dialog.component.html',
-  styleUrl: './end-dialog.component.scss'
+    selector: 'app-end-dialog',
+    templateUrl: './end-dialog.component.html',
+    styleUrl: './end-dialog.component.scss',
+    standalone: false
 })
 export class EndDialogComponent {
   @Input() gameStats: GameStatsModel = {

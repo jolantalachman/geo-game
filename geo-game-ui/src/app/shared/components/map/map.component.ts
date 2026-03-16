@@ -16,9 +16,10 @@ type GeoJsonLayer = L.Layer & {
 };
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrl: './map.component.scss'
+    selector: 'app-map',
+    templateUrl: './map.component.html',
+    styleUrl: './map.component.scss',
+    standalone: false
 })
 export class MapComponent implements OnInit, OnChanges, OnDestroy {
   @Input() coloredCountries: FeatureData[] = [];

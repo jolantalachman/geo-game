@@ -1,7 +1,8 @@
 import { Directive, Input, HostListener, ElementRef, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appTooltip]'
+    selector: '[appTooltip]',
+    standalone: false
 })
 export class TooltipDirective {
   @Input() text: string = '';  // Tooltip text

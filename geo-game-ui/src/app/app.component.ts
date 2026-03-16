@@ -8,16 +8,15 @@ import { Subscription, switchMap } from 'rxjs';
 import { UserFacade } from '@shared/store/user/user.facade';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    LayoutModule,
-    SharedModule,
-    FormsModule
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+    selector: 'app-root',
+    imports: [
+        RouterOutlet,
+        LayoutModule,
+        SharedModule,
+        FormsModule
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'geo-game-ui';

@@ -7,9 +7,10 @@ import { TimerComponent } from '@shared/components/timer/timer.component';
 import { UserFacade } from '@shared/store/user';
 
 @Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrl: './game.component.scss'
+    selector: 'app-game',
+    templateUrl: './game.component.html',
+    styleUrl: './game.component.scss',
+    standalone: false
 })
 export class GameComponent implements OnDestroy {
   @ViewChild(TimerComponent) timerComponent: TimerComponent | undefined;

@@ -2,9 +2,10 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 import { interval, Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-timer',
-  templateUrl: './timer.component.html',
-  styleUrl: './timer.component.scss'
+    selector: 'app-timer',
+    templateUrl: './timer.component.html',
+    styleUrl: './timer.component.scss',
+    standalone: false
 })
 export class TimerComponent implements OnInit, OnDestroy {
   @Input() startTime = 0;

@@ -7,9 +7,10 @@ import { AdminFacade } from '@shared/store/activity';
 import { tap } from 'rxjs';
 
 @Component({
-  selector: 'app-activity-log',
-  templateUrl: './activity-log.component.html',
-  styleUrl: './activity-log.component.scss'
+    selector: 'app-activity-log',
+    templateUrl: './activity-log.component.html',
+    styleUrl: './activity-log.component.scss',
+    standalone: false
 })
 export class ActivityLogComponent implements AfterViewInit {
   private facade = inject(AdminFacade);
