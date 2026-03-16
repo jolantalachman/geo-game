@@ -12,6 +12,10 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: geo-game-ui
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,7 +34,7 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Replace API URL
         run: |
