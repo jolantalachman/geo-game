@@ -10,6 +10,7 @@ import { jwtInterceptor } from "@shared/interceptors";
 import { USER_FEATURE_STORE_KEY, UserFacade, userReducer } from "@shared/store/user";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideCharts, withDefaultRegisterables } from "ng2-charts";
+import { environment } from "@environments/environment";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,7 +40,7 @@ export const appConfig: ApplicationConfig = {
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '655355497929-rq6mmj5aqnulgni11ua5ng94j53lj0m0.apps.googleusercontent.com',
+              environment.googleClientId,
               {oneTapEnabled: false}
             )
           }
