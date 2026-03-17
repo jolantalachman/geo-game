@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '@environments/environment';
 import { UserRoleEnum } from '@shared/enum';
 import { UserService } from '@shared/services';
 import { UserFacade } from '@shared/store/user';
@@ -14,6 +15,7 @@ import { tap } from 'rxjs';
 export class HeaderComponent {
   private facade = inject(UserFacade);
   public UserRoleEnum = UserRoleEnum;
+  public googleClientId = environment.googleClientId;
   role$ = this.facade.role$;
 
   constructor(private router: Router){}

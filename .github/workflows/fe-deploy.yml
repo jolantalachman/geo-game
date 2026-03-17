@@ -28,8 +28,10 @@ jobs:
         working-directory: geo-game-ui
         run: |
           sed -i "s|\${API_URL}|${API_URL}|g" src/environments/environment.prod.ts
+          sed -i "s|\${GOOGLE_CLIENT_ID}|${GOOGLE_CLIENT_ID}|g" src/environments/environment.prod.ts
         env:
           API_URL: ${{ secrets.API_URL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
 
       - name: Build Angular
         working-directory: geo-game-ui

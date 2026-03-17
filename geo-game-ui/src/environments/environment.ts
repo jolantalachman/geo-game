@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:7296'
+  apiUrl: 'https://localhost:7296',
+  googleClientId: ''
 };
