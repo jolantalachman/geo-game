@@ -1,5 +1,4 @@
-﻿using geo_game;
-using geo_game.Interfaces;
+﻿using geo_game.Interfaces;
 using geo_game.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
