@@ -5,12 +5,9 @@ name: Build and deploy ASP.Net Core app to Azure Web App - geo-game
 
 on:
   push:
-    branches:
-      include:
-        - main
-    paths:
+    branches: [ main ]
+    paths: 
       - 'geo-game/**'
-  workflow_dispatch:
 
 jobs:
   build:
