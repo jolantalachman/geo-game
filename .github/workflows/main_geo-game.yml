@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -20,36 +20,31 @@ jobs:
         with:
           dotnet-version: '10.x'
 
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Build and publish
+        run: |
+          cd geo-game
+          dotnet restore
+          dotnet build --configuration Release
+          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Publish
-        run: dotnet publish -c Release -o publish --no-build
-
-      - name: Upload artifact
+      - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: dotnet-app
-          path: publish
-
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
-
+    
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: dotnet-app
-          path: publish
-
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -96,5 +91,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: geo-game
-          resource-group-name: geo-game-be
-          package: publish
+          slot-name: 'Production'
+          package: .
