@@ -21,7 +21,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '10.0.x'
+          dotnet-version: '10.x'
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -51,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_A4A619F30410460D94EE43768D1E7539 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F436FBCC2B5B4DFB8B52EAB131F3083C }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F4E32CF5149E43D29ABE4A1303688591 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_0BEDB81816F64C80AE2FB2BC6A6D3734 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D00C1BC141774C7C825AEC0621C0C5E3 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E109DD6480C04136A39F5D73DCA4213A }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -62,3 +62,4 @@ jobs:
           app-name: 'geo-game'
           slot-name: 'Production'
           package: .
+          
