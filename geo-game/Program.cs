@@ -13,21 +13,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// -------------------------
-// DB (safe fallback)
-// -------------------------
 var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-if (!string.IsNullOrWhiteSpace(connectionString))
+if (string.IsNullOrWhiteSpace(connectionString))
 {
-    builder.Services.AddDbContext<DatabaseContext>(options =>
-        options.UseNpgsql(connectionString));
+    Console.WriteLine("WARNING: No database configured.");
 }
 else
 {
-    // fallback for testing deployments without DB config
     builder.Services.AddDbContext<DatabaseContext>(options =>
-        options.UseInMemoryDatabase("DevDb"));
+        options.UseNpgsql(connectionString));
 }
 
 // -------------------------
