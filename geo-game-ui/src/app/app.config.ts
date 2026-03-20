@@ -8,7 +8,6 @@ import { MapService, UserService } from "@shared/services";
 import { GoogleLoginProvider, SocialAuthServiceConfig } from "@abacritt/angularx-social-login";
 import { jwtInterceptor } from "@shared/interceptors";
 import { USER_FEATURE_STORE_KEY, UserFacade, userReducer } from "@shared/store/user";
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideCharts, withDefaultRegisterables } from "ng2-charts";
 import { environment } from "@environments/environment";
 
@@ -25,7 +24,6 @@ export const appConfig: ApplicationConfig = {
     provideState({name: USER_FEATURE_STORE_KEY, reducer: userReducer}),
     importProvidersFrom([
       StoreModule.forRoot(),
-      NoopAnimationsModule,
     ]),
     MapService,
     MapFacade,

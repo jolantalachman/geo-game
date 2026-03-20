@@ -12,8 +12,7 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddTransient<DbSeeder>();
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
@@ -41,22 +40,14 @@ builder.Services.AddAuthentication(x =>
     x.RequireHttpsMetadata = true;
     x.SaveToken = true;
 
-    var secret = configuration["Authentication:SecretKey"] ?? string.Empty;
-    var issuer = configuration["Authentication:Issuer"];
-    var audience = configuration["Authentication:Audience"];
-
     x.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
-        ValidateIssuer = !string.IsNullOrEmpty(issuer),
-        ValidIssuer = issuer,
-        ValidateAudience = !string.IsNullOrEmpty(audience),
-        ValidAudience = audience,
-        ValidateLifetime = true
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Authentication:SecretKey"])),
+        ValidateIssuer = false,
+        ValidateAudience = false,
     };
 });
-
 
 var app = builder.Build();
 
@@ -74,17 +65,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-if (app.Environment.IsDevelopment() || builder.Configuration.GetValue<bool>("ApplyMigrationsAtStartup"))
-{
-    using (var scope = app.Services.CreateScope())
-    {
-        var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-        var seeder = scope.ServiceProvider.GetRequiredService<DbSeeder>();
-
-        dbContext.Database.Migrate();
-        await seeder.SeedAsync();
-    }
-}
 
 app.Run();

@@ -23,6 +23,7 @@ export class GameComponent implements OnDestroy {
   showMissing = false;
   showDialog = false;
   gamePaused = true;
+  isEndGameDisabled = true;
   gameStats: GameStatsModel = {
     guessedCountries: '',
     time: 0,
@@ -75,6 +76,7 @@ export class GameComponent implements OnDestroy {
 
   pauseGame(pause: boolean){
     this.gamePaused = pause;
+    this.isEndGameDisabled = pause;
   }
 
   private checkCountry(countryName: string) {

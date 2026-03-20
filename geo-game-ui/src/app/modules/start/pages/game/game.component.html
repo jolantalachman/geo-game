@@ -14,9 +14,9 @@
             <fa-icon
                 size="xl"
                 [icon]="icons.faCircleStop"
-                [class.disabled]="timerComponent?.startTime === 900"
-                [attr.aria-disabled]="timerComponent?.startTime === 900"
-                (click)="timerComponent?.startTime === 900 ? null : onGameEnd(guessedCountries)">
+                [class.disabled]="isEndGameDisabled"
+                [attr.aria-disabled]="isEndGameDisabled"
+                (click)="isEndGameDisabled ? null : onGameEnd(guessedCountries)">
             </fa-icon>
             <fa-icon size="xl" [icon]="icons.faCircleQuestion" appTooltip [text]="tooltipText">
             </fa-icon>

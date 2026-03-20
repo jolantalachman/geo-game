@@ -27,3 +27,13 @@ appsettings.Development.json
 
 # Dotnet user secrets (local)
 secrets.json
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+geo-game/Database.db

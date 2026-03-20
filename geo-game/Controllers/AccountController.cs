@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using geo_game.Models;
 using Google.Apis.Auth;
 using geo_game.Dtos;
+using Microsoft.Extensions.Configuration;
 namespace geo_game.Controllers
 
 {
@@ -11,9 +12,11 @@ namespace geo_game.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-        public AccountController(IUserService userService)
+        private readonly IConfiguration _configuration;
+        public AccountController(IUserService userService, IConfiguration configuration)
         {
             _userService = userService;
+            _configuration = configuration;
         }
 
 
@@ -114,9 +117,10 @@ namespace geo_game.Controllers
         {
             var idToken = loginRequest.IdToken;
 
+            var clientId = _configuration["Authentication:Google:ClientId"];
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                Audience = new List<string> { "655355497929-rq6mmj5aqnulgni11ua5ng94j53lj0m0.apps.googleusercontent.com" }
+                Audience = new List<string> { clientId }
             };
 
             var payload = await GoogleJsonWebSignature.ValidateAsync(idToken, settings);

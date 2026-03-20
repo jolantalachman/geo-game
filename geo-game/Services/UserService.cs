@@ -273,7 +273,7 @@ namespace geo_game.Services
                 UserId: user.Id,
                 GuessedCountries: score.GuessedCountries,
                 GameTime: score.GameTime,
-                GameDate: DateTime.Parse(score.GameDate.ToString())
+                GameDate: score.GameDate
             );
 
             user.Scores.Add(addedScore);
@@ -294,7 +294,7 @@ namespace geo_game.Services
         public dynamic JWTGenerator(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Authentication:SecretKey"]);
+            var key = Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
