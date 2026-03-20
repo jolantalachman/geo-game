@@ -59,7 +59,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'geo-game'
+          app-name: 'geo-game-b0huf9hnc9bmd7gc'
           slot-name: 'Production'
           package: .
           
