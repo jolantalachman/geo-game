@@ -9,10 +9,7 @@ on:
       include:
         - main
     paths:
-      include:
-        - 'geo-game/**'
-      exclude:
-        - 'geo-game-ui/**'
+      - 'geo-game/**'
   workflow_dispatch:
 
 jobs:
