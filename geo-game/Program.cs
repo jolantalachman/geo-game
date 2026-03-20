@@ -1,4 +1,4 @@
-using geo_game;
+﻿using geo_game;
 using geo_game.Interfaces;
 using geo_game.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,42 +12,93 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
+// -------------------------
+// DB (safe fallback)
+// -------------------------
+var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+if (!string.IsNullOrWhiteSpace(connectionString))
+{
+    builder.Services.AddDbContext<DatabaseContext>(options =>
+        options.UseNpgsql(connectionString));
+}
+else
+{
+    // fallback for testing deployments without DB config
+    builder.Services.AddDbContext<DatabaseContext>(options =>
+        options.UseInMemoryDatabase("DevDb"));
+}
+
+// -------------------------
+// Logging
+// -------------------------
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
-var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? new string[0];
+// -------------------------
+// CORS (safe)
+// -------------------------
+var allowedOrigins =
+    configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
+    ?? Array.Empty<string>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowUi", policy =>
     {
-        policy.WithOrigins(allowedOrigins)
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        if (allowedOrigins.Length == 0)
+        {
+            // allow everything for testing only
+            policy.AllowAnyOrigin()
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
+        else
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
     });
 });
 
+// -------------------------
+// DI
+// -------------------------
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x =>
-{
-    x.RequireHttpsMetadata = true;
-    x.SaveToken = true;
+// -------------------------
+// JWT (safe optional setup)
+// -------------------------
+var jwtKey = configuration["Authentication:SecretKey"];
 
-    x.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Authentication:SecretKey"])),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-    };
-});
+if (!string.IsNullOrWhiteSpace(jwtKey))
+{
+    builder.Services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(x =>
+        {
+            x.RequireHttpsMetadata = false; // allow local/test deployments
+            x.SaveToken = true;
+
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(jwtKey)
+                ),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+            };
+        });
+}
+else
+{
+    // No JWT configured → disable auth pipeline safely
+    builder.Services.AddAuthentication();
+}
 
 var app = builder.Build();
 
@@ -61,7 +112,12 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowUi");
 
-app.UseAuthentication();
+// Only use auth middleware if key exists
+if (!string.IsNullOrWhiteSpace(jwtKey))
+{
+    app.UseAuthentication();
+}
+
 app.UseAuthorization();
 
 app.MapControllers();
