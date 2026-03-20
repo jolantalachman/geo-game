@@ -62,4 +62,3 @@ jobs:
           app-name: 'geo-game'
           slot-name: 'Production'
           package: .
-          
