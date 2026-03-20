@@ -2,7 +2,15 @@ name: Deploy Angular to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      include:
+        - main
+    paths:
+      include:
+        - 'geo-game-ui/**'
+      exclude:
+        - 'geo-game/**'
+  workflow_dispatch:
 
 permissions:
   contents: read
