@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { faCheck, faPen, faPlus, faTrash, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { UserRoleEnum } from '@shared/enum';
 import { ScoreApiModel, ScoreChartModel } from '@shared/models';
+import { DeviceService } from '@shared/services';
 import { UserFacade } from '@shared/store/user';
 import { BehaviorSubject, Observable, of, Subject, switchMap, take, takeUntil, tap} from 'rxjs';
 
@@ -16,6 +17,7 @@ import { BehaviorSubject, Observable, of, Subject, switchMap, take, takeUntil, t
 })
 export class MyAccountComponent implements AfterViewInit, OnDestroy {
   private facade = inject(UserFacade);
+  public isMobile$ = inject(DeviceService).isMobile$;
   private readonly destroy$ = new Subject<void>();
   refresh = new BehaviorSubject<boolean>(false);
   refresh$ = this.refresh.asObservable();

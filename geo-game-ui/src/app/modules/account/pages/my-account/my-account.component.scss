@@ -10,6 +10,11 @@
         display: flex;
         align-items: center;
         gap: 24px;
+
+        &-mobile {
+            flex-direction: column;
+        }
+
         fa-icon {
             cursor: pointer;
             position: relative;
@@ -24,6 +29,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+
             input {
                 height: 32px;
             }
@@ -52,11 +58,15 @@
         gap: 32px;
         padding-bottom: 22px;
 
+        &-mobile {
+            flex-direction: column;
+        }
+
         &-inner {
             display: flex;
             flex-direction: column;
             gap: 8px;
-            flex:1;
+            flex: 1;
         }
     }
 
@@ -72,6 +82,8 @@
         border-radius: 25px;
         flex: 1;
         height: fit-content;
+        overflow-x: auto;
+        overflow-y: hidden;
     }
 
     .delete-button {
@@ -87,6 +99,7 @@
         border: none;
         border-radius: 25px;
         cursor: pointer;
+
         &:hover {
             background-color: indianred;
         }
