@@ -7,13 +7,13 @@ namespace geo_game.Interfaces
     {
         Task<UserInfoDto> GetUserInfoAsync(string? id);
         Task<string?> GetUserRoleAsync(string email);
-        Task<Score> SaveScoreAsync(string? id, ScoreDto score);
+        Task<Score?> SaveScoreAsync(string? id, ScoreDto score);
         Task<PaginatedScoresDto> GetUserScoresAsync(string? id, int pageIndex, int pageSize, string? sortBy, string? sortDir);
         Task<ScoreChartDto> GetScoreChartDataAsync(string? id);
         Task<bool> SaveUserNick(string? id, string nick);
         Task<bool> DeleteUserScoresAsync(string? id);
         Task<bool> DeleteUserAccountAsync(string? id);
-        Task<User> GetOrCreateUserAsync(string? id);
+        Task<User> GetOrCreateUserAsync(string email);
         dynamic JWTGenerator(User user);
     }
 }

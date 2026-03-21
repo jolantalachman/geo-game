@@ -83,7 +83,9 @@ namespace geo_game.Services
                     Id = result.user.Id,
                     Email = result.user.Email,
                     Role = result.user.Role,
-                    LastActivity = result.activities.ActivityDateTime,
+                    LastActivity = result.activities != null
+                        ? result.activities.ActivityDateTime
+                        : null,
                 });
 
             if (sortDir != null && sortBy != null)

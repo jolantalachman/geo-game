@@ -2,7 +2,7 @@
 {
     public class ScoreDto
     {
-        public string GuessedCountries { get; set; }
+        public required string GuessedCountries { get; set; }
         public int GameTime { get; set; }
         public DateTime GameDate { get; set; }
     }

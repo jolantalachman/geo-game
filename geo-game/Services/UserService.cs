@@ -261,7 +261,7 @@ namespace geo_game.Services
             };
         }
 
-        public async Task<Score> SaveScoreAsync(string? id, ScoreDto score)
+        public async Task<Score?> SaveScoreAsync(string? id, ScoreDto score)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id.ToString() == id);
             if (user == null)
@@ -284,6 +284,11 @@ namespace geo_game.Services
 
             user = await _context.Users.Include(u => u.Scores).FirstOrDefaultAsync(u => u.Id == user.Id);
 
+            if (user == null)
+            {
+                return null;
+            }
+
             var bestScore = user.Scores
                 .Where(score => score.GuessedCountries.Split('/')[0] == user.Scores.Max(s => s.GuessedCountries.Split('/')[0]))
                 .FirstOrDefault();
@@ -294,7 +299,14 @@ namespace geo_game.Services
         public dynamic JWTGenerator(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_configuration["Authentication:SecretKey"]);
+            var secret = _configuration["Authentication:SecretKey"];
+
+            if (string.IsNullOrEmpty(secret))
+            {
+                throw new InvalidOperationException("JWT SecretKey is not configured.");
+            }
+
+            var key = Encoding.UTF8.GetBytes(secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]

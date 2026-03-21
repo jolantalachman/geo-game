@@ -24,6 +24,10 @@ namespace geo_game.Controllers
         public async Task<IActionResult> GetUserRole()
         {
             var userId = HttpContext.User.FindFirst("id")?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized("User ID not found.");
+            }
             var role = await _userService.GetUserRoleAsync(userId);
             return Ok(new { role= role });
         }
@@ -117,7 +121,9 @@ namespace geo_game.Controllers
         {
             var idToken = loginRequest.IdToken;
 
-            var clientId = _configuration["Authentication:Google:ClientId"];
+            var clientId = _configuration["Authentication:Google:ClientId"]
+                ?? throw new InvalidOperationException("Missing Google ClientId configuration.");
+
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
                 Audience = new List<string> { clientId }

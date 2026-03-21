@@ -2,7 +2,7 @@
 {
     public class NickRequest
     {
-        public string Nick { get; set; }
+        public required string Nick { get; set; }
     }
 
 }

@@ -3,22 +3,16 @@ using System.Text.Json.Serialization;
 
 namespace geo_game.Models
 {
-    public class Activity
+    public class Activity(int UserId, string ActivityType, DateTime ActivityDateTime)
     {
-        public Activity(int UserId, string ActivityType, DateTime ActivityDateTime)
-        {
-            this.UserId = UserId;
-            this.ActivityType = ActivityType;
-            this.ActivityDateTime = ActivityDateTime;
-        }
         public int Id { get; set; }
-        public string ActivityType { get; set; }
-        public DateTime ActivityDateTime { get; set; }
+        public string ActivityType { get; set; } = ActivityType;
+        public DateTime ActivityDateTime { get; set; } = ActivityDateTime;
 
         [ForeignKey("UserId")]
-        public int UserId { get; set; }
+        public int UserId { get; set; } = UserId;
         [JsonIgnore]
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 
 }

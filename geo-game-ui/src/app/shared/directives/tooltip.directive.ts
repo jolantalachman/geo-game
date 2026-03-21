@@ -18,6 +18,14 @@ export class TooltipDirective {
     this.destroyTooltip();
   }
 
+  @HostListener('click') onClick() {
+    if (this.tooltipElement) {
+      this.destroyTooltip();
+    } else {
+      this.createTooltip();
+    }
+  }
+
   private createTooltip() {
     this.tooltipElement = this.renderer.createElement('div');
     this.renderer.appendChild(this.tooltipElement, this.renderer.createText(this.text));

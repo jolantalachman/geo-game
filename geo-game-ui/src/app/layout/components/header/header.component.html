@@ -4,20 +4,13 @@
   </div>
   <nav class="navbar-links">
     @if(role$ | async; as role) {
-      @if (role === UserRoleEnum.ADMIN) {
-        <div>
+      <div>
           <a class="account" (click)="goTo('/account')">My account</a>
+          @if (role === UserRoleEnum.ADMIN) {
           <a class="account" (click)="goTo('/admin')">Admin panel</a>
+          }
           <a class="logout" (click)="logout()">Log out</a>
-        </div>
-      }
-
-      @if (role === UserRoleEnum.USER) {
-        <div>
-          <span class="account" (click)="goTo('/account')">My account</span>
-          <span class="logout" (click)="logout()">Log out</span>
-        </div>
-      }
+      </div>
 
     }
     @else {

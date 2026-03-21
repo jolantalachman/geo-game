@@ -3,7 +3,7 @@ import { Store } from "@ngrx/store";
 import { UserState } from "./user.state";
 import { UserService } from "@shared/services";
 import { SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
-import { map, switchMap, tap } from "rxjs";
+import { map, of, switchMap, tap } from "rxjs";
 import { UserActions } from "./user.actions";
 import { UserSelectors } from "./user.selectors";
 import { UserRoleEnum } from "@shared/enum";
@@ -46,12 +46,14 @@ export class UserFacade {
   }
 
   public getRole() {
+    if(this.isAuthenticated) {
     return this.service.getUserRole().pipe(
       map((x) => this.mapRole(x.role)),
       tap(x => 
         this.store.dispatch(UserActions.setRole({ role: x }))
       )
-    );
+    ); }
+    else { return of(null); }
   }
 
   public getUserInfo() {
