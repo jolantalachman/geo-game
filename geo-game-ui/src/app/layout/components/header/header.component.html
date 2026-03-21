@@ -4,24 +4,32 @@
   </div>
   <nav class="navbar-links">
     @if(role$ | async; as role) {
-      <div>
-          <a class="account" (click)="goTo('/account')">My account</a>
-          @if (role === UserRoleEnum.ADMIN) {
-          <a class="account" (click)="goTo('/admin')">Admin panel</a>
-          }
-          <a class="logout" (click)="logout()">Log out</a>
-      </div>
-
+    @if(device.isMobile$ | async) {
+    <div class="link-icons">
+      <fa-icon size="lg" [icon]="icons.faUser" (click)="goTo('/account')">
+      </fa-icon>
+      @if (role === UserRoleEnum.ADMIN) {
+      <fa-icon size="lg" [icon]="icons.faCogs" (click)="goTo('/admin')">
+      </fa-icon>
+      }
+      <fa-icon size="lg" [icon]="icons.faRightFromBracket" (click)="logout()">
+      </fa-icon>
+    </div>
     }
     @else {
-    <asl-google-signin-button
-      text="continue_with"
-      shape="pill" type='standard'
-      size='medium'
-      locale="en"
-      [attr.client-id]="googleClientId"
-      >
+    <div>
+      <a class="account" (click)="goTo('/account')">My account</a>
+      @if (role === UserRoleEnum.ADMIN) {
+      <a class="account" (click)="goTo('/admin')">Admin panel</a>
+      }
+      <a class="logout" (click)="logout()">Log out</a>
+    </div>
+    }
+    }
+    @else {
+    <asl-google-signin-button text="continue_with" shape="pill" type='standard' size='medium' locale="en"
+      [attr.client-id]="googleClientId">
     </asl-google-signin-button>
-  }
-</nav>
+    }
+  </nav>
 </div>

@@ -6,7 +6,7 @@ import { faCheck, faPen, faPlus, faTrash, faXmark } from '@fortawesome/free-soli
 import { UserRoleEnum } from '@shared/enum';
 import { ScoreApiModel, ScoreChartModel } from '@shared/models';
 import { UserFacade } from '@shared/store/user';
-import { BehaviorSubject, combineLatest, map, Observable, of, Subject, switchMap, take, takeUntil, tap, withLatestFrom } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, switchMap, take, takeUntil, tap} from 'rxjs';
 
 @Component({
     selector: 'app-my-account',

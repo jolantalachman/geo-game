@@ -23,12 +23,11 @@ jobs:
         with:
           dotnet-version: '10.x'
 
-      - name: Build and publish
-        run: |
-          cd geo-game
-          dotnet build --configuration Release
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      - name: Restore
+        run: dotnet restore geo-game/geo-game.csproj
+
+      - name: Publish
+        run: dotnet publish geo-game/geo-game.csproj -c Release -o publish
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -61,7 +60,6 @@ jobs:
         uses: azure/appservice-settings@v1
         with:
           app-name: geo-game
-          resource-group-name: geo-game-be
           app-settings-json: |
             [
               {

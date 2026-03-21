@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@environments/environment';
+import { faUser, faCogs, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { UserRoleEnum } from '@shared/enum';
-import { UserService } from '@shared/services';
+import { DeviceService} from '@shared/services';
 import { UserFacade } from '@shared/store/user';
 import { tap } from 'rxjs';
 
@@ -18,7 +19,13 @@ export class HeaderComponent {
   public googleClientId = environment.googleClientId;
   role$ = this.facade.role$;
 
-  constructor(private router: Router){}
+  public readonly icons = {
+    faUser,
+    faCogs,
+    faRightFromBracket
+  };
+
+  constructor(private router: Router, public device: DeviceService){}
   
   goTo(path: string) {
     this.router.navigate([path]);

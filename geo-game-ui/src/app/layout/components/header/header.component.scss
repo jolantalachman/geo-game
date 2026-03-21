@@ -18,6 +18,12 @@
     .navbar-links {
       display: flex;
       align-items: center;
+
+      .link-icons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
   
       .account {
         font-size: 1rem;
