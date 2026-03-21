@@ -38,9 +38,9 @@ export class GameComponent implements OnDestroy {
   icons = { faCirclePause, faCirclePlay, faCircleQuestion, faCircleStop };
 
   coloredCountries$ = this.facade.coloredCountries$;
-  guessedCountries$ = this.facade.guessedCountries$.pipe(tap(x => {
+    guessedCountries$ = this.facade.guessedCountries$.pipe(tap(x => {
     const arr = x.split('/');
-    if (arr[0] === arr[1]) {
+    if (arr[0] === arr[1] && arr[0] !== '0') {
       this.onGameEnd(x);
     }
   }));
