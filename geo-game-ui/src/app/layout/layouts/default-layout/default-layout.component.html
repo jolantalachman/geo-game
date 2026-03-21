@@ -6,3 +6,9 @@
     <div class="default-layout-inner"><router-outlet></router-outlet></div>
   </div>
 </div>
+
+@if(loaderService.loading$ | async) {
+  <div class="loading-overlay">
+    <div class="loading-spinner"></div>
+  </div>
+}

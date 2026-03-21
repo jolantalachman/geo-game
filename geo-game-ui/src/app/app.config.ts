@@ -6,7 +6,7 @@ import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { provideState, provideStore, StoreModule } from "@ngrx/store";
 import { MapService, UserService } from "@shared/services";
 import { GoogleLoginProvider, SocialAuthServiceConfig } from "@abacritt/angularx-social-login";
-import { jwtInterceptor } from "@shared/interceptors";
+import { jwtInterceptor, loaderInterceptor } from "@shared/interceptors";
 import { USER_FEATURE_STORE_KEY, UserFacade, userReducer } from "@shared/store/user";
 import { provideCharts, withDefaultRegisterables } from "ng2-charts";
 import { environment } from "@environments/environment";
@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withHashLocation()),
     provideHttpClient(
-      withInterceptors([jwtInterceptor])
+      withInterceptors([jwtInterceptor, loaderInterceptor])
     ),
     provideCharts(withDefaultRegisterables()),
     provideStore(),

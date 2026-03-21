@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoaderService } from '@shared/services';
 
 @Component({
     selector: 'app-default-layout',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
     standalone: false
 })
 export class DefaultLayoutComponent {
-
+    constructor(public loaderService: LoaderService) {}
 }
