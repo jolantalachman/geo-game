@@ -22,13 +22,12 @@
             </fa-icon>
         </div>
 
-        <div class="text-input">
+        <div class="text-input" [class.text-input-mobile]="isMobile$ | async">
             <label for="countryInput">Enter country's name: </label>
             <div class="input-control">
                 <input [disabled]="loading || gamePaused" id="countryInput"  [(ngModel)]="countryInput" (keydown)="updateInput($event)" />
                 <p [class.visibility-hidden]="!showError" class="error">Not a correct answer</p>
             </div>
-            <app-spinner class="spinner" [class.visibility-hidden]="!loading"></app-spinner>
         </div>
         <div class="map">
             <app-map

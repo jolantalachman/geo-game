@@ -5,6 +5,7 @@ import { filter, take, tap } from 'rxjs';
 import { faCirclePause, faCirclePlay, faCircleQuestion, faCircleStop } from '@fortawesome/free-solid-svg-icons';
 import { TimerComponent } from '@shared/components/timer/timer.component';
 import { UserFacade } from '@shared/store/user';
+import { DeviceService } from '@shared/services';
 
 @Component({
     selector: 'app-game',
@@ -16,6 +17,7 @@ export class GameComponent implements OnDestroy {
   @ViewChild(TimerComponent) timerComponent: TimerComponent | undefined;
   private facade = inject(MapFacade);
   private userFacade = inject(UserFacade);
+  public isMobile$ = inject(DeviceService).isMobile$;
   startTime = 900;
   countryInput: string = '';
   showError = false;

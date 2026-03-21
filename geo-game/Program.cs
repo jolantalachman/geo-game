@@ -41,19 +41,9 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowUi", policy =>
     {
-        if (allowedOrigins.Length == 0)
-        {
-            // allow everything for testing only
-            policy.AllowAnyOrigin()
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
-        else
-        {
-            policy.WithOrigins(allowedOrigins)
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        }
+        policy.WithOrigins(allowedOrigins)
+                .AllowAnyHeader()
+                .AllowAnyMethod();
     });
 });
 

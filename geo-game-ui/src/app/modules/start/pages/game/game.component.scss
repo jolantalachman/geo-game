@@ -44,6 +44,13 @@
             align-items: baseline;
             gap: 8px;
 
+            &-mobile {
+                flex-direction: column;
+                .input-control {
+                    width: 100%;
+                }
+            }
+
             .input-control {
                 flex: 1;
                 #countryInput {
