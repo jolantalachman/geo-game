@@ -8,7 +8,8 @@ A web-based quiz game where users test how many countries they can name. As corr
 
 ## 🚀 Live Demo
 
-👉 [Play the game](https://jolantalachman.github.io/geo-game/#/start)
+[Play the game](https://jolantalachman.github.io/geo-game/#/start)
+
 ---
 
 ## 📸 Preview
