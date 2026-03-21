@@ -41,6 +41,13 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowUi", policy =>
     {
+        if (allowedOrigins.Length == 0)
+        {
+            Throw new InvalidOperationException(
+                "CORS policy 'AllowUi' has no allowed origins configured. " +
+                "Please set 'Cors:AllowedOrigins' in appsettings.json or via environment variable."
+            );
+        }
         policy.WithOrigins(allowedOrigins)
                 .AllowAnyHeader()
                 .AllowAnyMethod();

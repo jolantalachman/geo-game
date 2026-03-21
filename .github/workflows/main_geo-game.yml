@@ -85,7 +85,7 @@ jobs:
               },
               {
                 "name": "Cors__AllowedOrigins",
-                "value": '${{ secrets.CORS_ALLOWED_ORIGINS }}',
+                "value": "${{ secrets.CORS_ALLOWED_ORIGINS }}",
                 "slotSetting": false
               }
             ]
