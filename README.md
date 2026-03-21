@@ -2,13 +2,14 @@
 
 A web-based quiz game where users test how many countries they can name. As correct answers are entered, the map dynamically fills in, providing a visual sense of progress.
 
-[Inspired by a uiz on JetPunk](https://www.jetpunk.com/quizzes/how-many-countries-can-you-name).
+[Inspired by a quiz on JetPunk](https://www.jetpunk.com/quizzes/how-many-countries-can-you-name).
 
 ---
 
 ## 🚀 Live Demo
 
-👉 [Play the game](https://jolantalachman.github.io/geo-game/#/start)
+[Play the game](https://jolantalachman.github.io/geo-game/#/start)
+
 ---
 
 ## 📸 Preview
