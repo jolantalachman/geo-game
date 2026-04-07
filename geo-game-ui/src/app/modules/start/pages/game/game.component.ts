@@ -56,25 +56,28 @@ export class GameComponent implements OnDestroy {
     }
   }
 
-  onGameEnd(guessedCountries: string) {
+  onGameEnd = (guessedCountries: string) => {
     this.gamePaused = true;
-    const time = this.startTime - (this.timerComponent?.startTime ?? 0);
+
+    const start = this.startTime ?? 0;
+    const timerStart = this.timerComponent?.startTime ?? 0;
+    const time = start - timerStart;
+
     this.gameStats = {
       guessedCountries,
       time,
       gameDate: new Date(),
-    }
+    };
 
-    if(this.userFacade.isAuthenticated) {
+    if (this.userFacade.isAuthenticated) {
       this.userFacade.saveScore(this.gameStats).subscribe(x => {
         this.bestScore = x;
         this.showDialog = true;
       });
-    }
-    else {
+    } else {
       this.showDialog = true;
     }
-  }
+  };
 
   pauseGame(pause: boolean){
     this.gamePaused = pause;
