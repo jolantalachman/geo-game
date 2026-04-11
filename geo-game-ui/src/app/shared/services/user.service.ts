@@ -54,7 +54,9 @@ export class UserService {
         const scoreRequest: ScoreApiModel = {
             guessedCountries: gameStats.guessedCountries,
             gameTime: gameStats.time,
-            gameDate: new Date(gameStats.gameDate + 'Z').toISOString(),
+            gameDate: gameStats.gameDate
+                ? new Date(gameStats.gameDate).toISOString()
+                : new Date().toISOString(),
         };
 
         return this.http.post<ScoreApiModel>(`${this.apiUrl}/Account/SaveScore`, scoreRequest);
