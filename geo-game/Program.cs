@@ -33,21 +33,13 @@ builder.Logging.AddDebug();
 // -------------------------
 // CORS (safe)
 // -------------------------
-var allowedOrigins =
-    configuration.GetSection("Cors:AllowedOrigins").Get<string[]>()
-    ?? Array.Empty<string>();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowUi", policy =>
     {
-        if (allowedOrigins.Length == 0)
-        {
-            Console.WriteLine("WARNING: No allowed origins.");
-        }
-        policy.WithOrigins(allowedOrigins)
-                .AllowAnyHeader()
-                .AllowAnyMethod();
+        policy.WithOrigins("https://jolantalachman.github.io")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
